@@ -1,0 +1,41 @@
+name: Auto Publish Date
+
+on:
+  pull_request:
+    types:
+      - closed
+
+jobs:
+  auto_publish:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GH_RELEASE_PLZ_TOKEN }}
+
+      - name: Set publishedAt date
+        id: set-date
+        run: |
+          UPDATED=false
+          # Find all metadata.json files in the repository
+          for file in $(find . -name "metadata.json"); do
+            # Check if publishedAt is null or missing
+            if ! jq -e '.publishedAt and .publishedAt != null' "$file" > /dev/null; then
+              echo "Adding publishedAt to $file"
+              DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+              jq ".publishedAt = \"$DATE\"" "$file" > tmp.json && mv tmp.json "$file"
+              UPDATED=true
+            fi
+          done
+          echo "updated=$UPDATED" >> $GITHUB_OUTPUT
+
+      - name: Commit and push changes
+        if: steps.set-date.outputs.updated == 'true'
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add "*/metadata.json"
+          git commit -m "chore: auto-add publishedAt to metadata.json"
+          git push
