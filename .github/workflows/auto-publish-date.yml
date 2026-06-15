@@ -14,13 +14,14 @@ jobs:
         uses: actions/checkout@v4
         with:
           token: ${{ secrets.GH_RELEASE_PLZ_TOKEN }}
+          fetch-depth: 2
 
       - name: Set publishedAt date
         id: set-date
         run: |
           UPDATED=false
-          # Find all metadata.json files in the repository
-          for file in $(find . -name "metadata.json"); do
+          # Find metadata.json files that were modified in the merged PR
+          for file in $(git diff --name-only HEAD^1 HEAD | grep 'metadata.json$' || true); do
             # Check if publishedAt is null or missing
             if ! jq -e '.publishedAt and .publishedAt != null' "$file" > /dev/null; then
               echo "Adding publishedAt to $file"
@@ -36,6 +37,5 @@ jobs:
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add "*/metadata.json"
-          git commit -m "chore: auto-add publishedAt to metadata.json"
+          git commit -am "chore: auto-add publishedAt to metadata.json"
           git push
