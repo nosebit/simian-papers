@@ -24,9 +24,20 @@ jobs:
           for file in $(git diff --name-only HEAD^1 HEAD | grep 'metadata.json$' || true); do
             # Check if publishedAt is null or missing
             if ! jq -e '.publishedAt and .publishedAt != null' "$file" > /dev/null; then
-              echo "Adding publishedAt to $file"
+              echo "Adding publishedAt and approvers to $file"
               DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
-              jq ".publishedAt = \"$DATE\"" "$file" > tmp.json && mv tmp.json "$file"
+              
+              # Fetch approvers from PR reviews
+              APPROVERS=$(curl -s -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+                "https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/reviews" \
+                | jq -r '.[] | select(.state == "APPROVED") | .user.id' | sort -u | jq -R . | jq -s 'map(tonumber)')
+              
+              # Ensure APPROVERS is a valid array, default to empty array
+              if [ -z "$APPROVERS" ] || [ "$APPROVERS" == "null" ]; then
+                APPROVERS="[]"
+              fi
+
+              jq ".publishedAt = \"$DATE\" | .approvers = $APPROVERS" "$file" > tmp.json && mv tmp.json "$file"
               UPDATED=true
             fi
           done
