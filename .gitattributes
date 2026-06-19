@@ -1,0 +1,5 @@
+# Hide all published bundle files from PR diff by default (treat them as generated)
+published/** linguist-generated=true
+
+# Except for the markdown paper itself, so reviewers can focus on reviewing it
+published/**/paper.md linguist-generated=false
