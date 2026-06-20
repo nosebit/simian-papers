@@ -1,0 +1,678 @@
+[
+  {
+    "children": [
+      {
+        "text": "Simian Paper"
+      }
+    ],
+    "type": "title"
+  },
+  {
+    "children": [
+      {
+        "text": "Simian papers are very similar to Jupyther Notebooks but better 😜. The idea is to create something like Notion but for science. Simian itself is a framework I've built to get my hands dirty with Machine Learning and Artificial Intelligence in general. Originally a paper was the UI I could use to get a better sense of the algorithms implemented in the Simian CLI but it can actually be used for anything actually. In the next sections I'm going to describe what are the blocks we can use to write papers in Simian and how we can publish them so everyone can share knowledge. "
+      }
+    ],
+    "id": "Uxjzx1BAk6ZedjxHAalv4",
+    "type": "paragraph"
+  },
+  {
+    "children": [
+      {
+        "text": "Installation"
+      }
+    ],
+    "id": "agugM676E_7lpSoFWSIP0",
+    "level": 1,
+    "type": "heading"
+  },
+  {
+    "children": [
+      {
+        "text": "In order to create a paper you first need to install Simian CLI. As explained in "
+      },
+      {
+        "link": "https://github.com/nosebit/simian",
+        "text": "GitHub"
+      },
+      {
+        "text": " this is as simple as running the following command in your terminal:"
+      }
+    ],
+    "id": "KQK1WE9jOGYO98M3nQfMy",
+    "type": "paragraph"
+  },
+  {
+    "children": [
+      {
+        "text": "curl -fsSL https://simian.sh/install.sh | bash"
+      }
+    ],
+    "id": "5vAGRoagGNh6enR1sjYMx",
+    "language": "bash",
+    "type": "code-block"
+  },
+  {
+    "children": [
+      {
+        "text": "You can test if it got correctly installed by checking its version with the following:"
+      }
+    ],
+    "id": "TKy9dv3l9d275vbbuX07E",
+    "type": "paragraph"
+  },
+  {
+    "children": [
+      {
+        "text": "simian --version"
+      }
+    ],
+    "id": "n0T7j4aCc5oKEyertyt0f",
+    "language": "bash",
+    "type": "code-block"
+  },
+  {
+    "children": [
+      {
+        "text": "If you see an output showing the current simian version then you are ready to open a the paper UI by running the following:"
+      }
+    ],
+    "id": "NCUY4ZYl2Noi2NQsW8TF_",
+    "type": "paragraph"
+  },
+  {
+    "children": [
+      {
+        "text": "simian paper open"
+      }
+    ],
+    "id": "Uwk7u55SBYsbs9nk8hxSg",
+    "language": "bash",
+    "type": "code-block"
+  },
+  {
+    "children": [
+      {
+        "text": ""
+      }
+    ],
+    "id": "qObQxuoOeae-m3LuoM0o_",
+    "type": "paragraph"
+  },
+  {
+    "children": [
+      {
+        "text": "This will open the paper index page listing all papers you have created and a button so you can create a new paper."
+      }
+    ],
+    "id": "XGCTfHauu091eBeL3BSRR",
+    "type": "paragraph"
+  },
+  {
+    "blocks": {
+      "container": {
+        "width": "standard"
+      }
+    },
+    "children": [
+      {
+        "text": ""
+      }
+    ],
+    "id": "a57gfK0uU1W41dlBvQUEw",
+    "items": [
+      {
+        "caption": "This is the index page where you can see all the papers you have created and also create a new paper",
+        "height": 0,
+        "id": "KZ4LQH8EAnmOFouavMyyF",
+        "mime": "image/png",
+        "url": "/api/paper/paper-8b722d/assets/35556dc1.png",
+        "width": 0
+      }
+    ],
+    "layout": "grid",
+    "type": "image-block"
+  },
+  {
+    "children": [
+      {
+        "text": "Go ahead and click that \"New Paper\" button so you get redirected to the new paper editor where you can see an empty title and an empty paragraph like this:"
+      }
+    ],
+    "id": "0lisHT8-fRp2mPrrJJ_qn",
+    "type": "paragraph"
+  },
+  {
+    "blocks": {
+      "container": {
+        "width": "standard"
+      }
+    },
+    "children": [
+      {
+        "text": ""
+      }
+    ],
+    "id": "JPki5ycXw3beTgPmDpXhR",
+    "items": [
+      {
+        "caption": "An empty paper showing an empty title and an empty paragraph. A lot of emptyness!",
+        "height": 0,
+        "id": "EK-GCNUKwr580rEHvIwBJ",
+        "mime": "image/png",
+        "url": "/api/paper/paper-8b722d/assets/add3f32c.png",
+        "width": 0
+      }
+    ],
+    "layout": "grid",
+    "type": "image-block"
+  },
+  {
+    "children": [
+      {
+        "text": "You can get back to the index page (the papers list page) by clicking on the left arrow icon we have on the top left of the page."
+      }
+    ],
+    "id": "jVJZw8GNOch440JEQyxOY",
+    "type": "paragraph"
+  },
+  {
+    "children": [
+      {
+        "text": "The Editor"
+      }
+    ],
+    "id": "EV9uYgolr-ur_uaWVZWv5",
+    "level": 1,
+    "type": "heading"
+  },
+  {
+    "children": [
+      {
+        "text": "Our Simian editor is built on top of the excellent "
+      },
+      {
+        "link": "https://github.com/ianstormtaylor/slate",
+        "text": "SlateJS editor"
+      },
+      {
+        "text": " and is what you use to write papers. It is a block based editor where we stack different types of blocks together. Right now we support a title, heading, paragraph, code, latex and image blocks. It also supports inline elements like "
+      },
+      {
+        "bold": true,
+        "text": "bold"
+      },
+      {
+        "text": ", "
+      },
+      {
+        "italic": true,
+        "text": "italic"
+      },
+      {
+        "text": " and "
+      },
+      {
+        "text": "underline",
+        "underline": true
+      },
+      {
+        "text": " texts or "
+      },
+      {
+        "link": "https://github.com/nosebit",
+        "text": "links"
+      },
+      {
+        "text": ", "
+      },
+      {
+        "code": true,
+        "text": "codes"
+      },
+      {
+        "text": " and more to come. We are trying to support markdown shortcuts for all those blocks and inline elements so in theory you can type "
+      },
+      {
+        "code": true,
+        "text": "#"
+      },
+      {
+        "text": " at the begining of a paragraph to convert it to an H1 block as we normally do in markdown. Not all the things are supported yet but I'm working hard to improve the editor and you can definitely contribute!"
+      }
+    ],
+    "id": "SKMgIUiPzLYbY4Xhf5C-I",
+    "level": 1,
+    "type": "paragraph"
+  },
+  {
+    "children": [
+      {
+        "text": "Commands Menu"
+      }
+    ],
+    "id": "imzUafMyWX9uqzB2pFbT8",
+    "level": 3,
+    "type": "heading"
+  },
+  {
+    "blocks": {
+      "container": {
+        "float": "right",
+        "width": "200px"
+      }
+    },
+    "children": [
+      {
+        "text": ""
+      }
+    ],
+    "id": "aP6i2CPo9_tUiwLRblKTe",
+    "items": [
+      {
+        "caption": "The commands dropdown",
+        "height": 0,
+        "id": "FIyIfhoFv7XnbUs-XzoOi",
+        "mime": "image/png",
+        "url": "/api/paper/paper-8b722d/assets/572fbbee.png",
+        "width": 0
+      }
+    ],
+    "layout": "grid",
+    "type": "image-block"
+  },
+  {
+    "children": [
+      {
+        "text": "At any time you can hit  "
+      },
+      {
+        "code": true,
+        "text": "/"
+      },
+      {
+        "text": " in a paragraph to open the commands menu where you can see all the available blocks you can use. On the right side of the the block item in the dropdown you can see the markdown shortcut you can use in the text to create that block. For example, to start a new code block you can simply type "
+      },
+      {
+        "code": true,
+        "text": "```"
+      },
+      {
+        "text": " at the beginning of a new paragraph."
+      }
+    ],
+    "id": "WN8qkju3nPgowBUqTqnog",
+    "level": 1,
+    "type": "paragraph"
+  },
+  {
+    "children": [
+      {
+        "text": "To apply inline style or elements you can select any piece of text to automatically open the inline menu on top of the selection. "
+      }
+    ],
+    "id": "9CGA_oQu5uFOs7ZpvB9nv",
+    "level": 1,
+    "type": "paragraph"
+  },
+  {
+    "children": [
+      {
+        "text": "Title"
+      }
+    ],
+    "id": "FKkso1VI4b2i15l-EcjOZ",
+    "level": 3,
+    "type": "heading"
+  },
+  {
+    "children": [
+      {
+        "text": "Every paper must have a title and when you hover over the title block you are going to see a \"return arrow\" button on the left of it. You can use this button to add an optional subtitle to your paper. The title you add is going to be the one we suggest when you submit your paper but you can optionally use another name on submission time. More on paper submissions below."
+      }
+    ],
+    "id": "AzUYC5SawPSVsKiarrbjO",
+    "level": 1,
+    "type": "paragraph"
+  },
+  {
+    "children": [
+      {
+        "text": "Heading"
+      }
+    ],
+    "id": "XbZgxZaTaCjFWTK1MSO5W",
+    "level": 3,
+    "type": "heading"
+  },
+  {
+    "children": [
+      {
+        "text": "The headings act like section titles throughout the paper and we support 6 different levels of headings we call H1, ..., H6. An Hk heading can be created from the commands menu or also by typing "
+      },
+      {
+        "code": true,
+        "text": "#"
+      },
+      {
+        "text": " k times in the beginning of a paragraph and then hitting space. This will convert the whole paragraph into a Hk heading. "
+      }
+    ],
+    "id": "ZGrgyyBsUv_C3GKjuOQn7",
+    "type": "paragraph"
+  },
+  {
+    "children": [
+      {
+        "text": "Paragraph"
+      }
+    ],
+    "id": "mJz5afcPKCAczBoByaqJi",
+    "level": 3,
+    "type": "heading"
+  },
+  {
+    "children": [
+      {
+        "text": "I probably don't need to describe what a paragraph is right? 😂"
+      }
+    ],
+    "id": "rKLsl0Gwv14MqkPNWx4PM",
+    "type": "paragraph"
+  },
+  {
+    "children": [
+      {
+        "text": "Code Block"
+      }
+    ],
+    "id": "ZKSUtOF9tn5G8p1KXOiUl",
+    "level": 3,
+    "type": "heading"
+  },
+  {
+    "children": [
+      {
+        "text": "A code block is where you write some piece of code and, as we mentioned before, you can create such a block either from the commands menu or by typing "
+      },
+      {
+        "code": true,
+        "text": "```"
+      },
+      {
+        "text": " directly in the beginning of an empty paragraph and then hitting space."
+      }
+    ],
+    "id": "egbj6Z_GpUl6w1afmATms",
+    "type": "paragraph"
+  },
+  {
+    "children": [
+      {
+        "text": "At the top left of the code block you are going to see the code language selector and on the top right we will display a \"play\" button so you can actually run the code contained in the block. Right now we only support running Rust code and only while writing a paper. This way you can use the Simian Rust library directly in a paper code block so you can visualize data loaded from multiple sources, plot charts, train models and whatnot. Maybe in the future we could support executing code written in languages other than Rust but for now we focused in Rust because Simian CLI itself is written in Rust. "
+      }
+    ],
+    "id": "XY25q2ehk53e__UB55WyK",
+    "type": "paragraph"
+  },
+  {
+    "blocks": {
+      "container": {
+        "width": "standard"
+      }
+    },
+    "children": [
+      {
+        "text": ""
+      }
+    ],
+    "id": "D5DDU_qSAEJfXIqbHwZkF",
+    "items": [
+      {
+        "caption": "Code block showing the language selector on the left and the run button on the right",
+        "height": 0,
+        "id": "Ukd4Gb7xjPNj_OimmsmFa",
+        "mime": "image/png",
+        "url": "/api/paper/paper-8b722d/assets/7fa56be3.png",
+        "width": 0
+      }
+    ],
+    "layout": "grid",
+    "type": "image-block"
+  },
+  {
+    "children": [
+      {
+        "text": "The way we run Rust code is basically the following: we grab the code from all the Rust code blocks that happens before the target code block (i.e., the one we are running), join all those codes together, compile them and execute them. We try to cache as much as possible to make this process as fast as possible and so far it is working fine (at least for the small papers I'm working on). One challenge of this approach is how we pick up the correct output from all outputs to present as the output of the target block. Right now we do a hacky solution by injecting some \"prints\" in the joined code to split the output into sections associated with each code block. Maybe we could explore better ways of executing code in Simian papers. Feel free to suggest something in our Discussion page in GitHub. I would love to hear your ideas 😁♥️"
+      }
+    ],
+    "id": "GOjcNvUj3vJlL2Ntxuj5J",
+    "type": "paragraph"
+  },
+  {
+    "children": [
+      {
+        "text": "LaTeX Block"
+      }
+    ],
+    "id": "MHKaA9y1Ppl8l7dJF7Tbv",
+    "level": 3,
+    "type": "heading"
+  },
+  {
+    "children": [
+      {
+        "text": "You can add math formulas by writing LaTeX expression both inline and in a block. To add inline LaTeX expressions you should wrap the expression around "
+      },
+      {
+        "code": true,
+        "text": "$"
+      },
+      {
+        "text": " (e.g., "
+      },
+      {
+        "children": [
+          {
+            "text": "\\int_{a}^{b} f(x) \\, dx = C"
+          }
+        ],
+        "id": "7o6tjgJ90YMPd83D6Qy-F",
+        "mode": "read",
+        "type": "latex-inline"
+      },
+      {
+        "text": ") and to add a LaTeX block you can use both the commands menu or type "
+      },
+      {
+        "code": true,
+        "text": "$$$"
+      },
+      {
+        "text": " in the beginning of an empty paragraph. The LaTeX block is similar to a code block where you can write LaTeX code (expression) and as soon as you are finish with writing the expression you can hit "
+      },
+      {
+        "bold": true,
+        "text": "Shift+Enter"
+      },
+      {
+        "text": " to switch the block to read mode which makes the expression to be rendered as a nice math formula. Double clicking on the LaTeX block will switch it back to write mode so you can edit the underlying LaTeX expression. Here is an example of rendered LaTeX expression:"
+      }
+    ],
+    "id": "EpoD3BZLfKiKJIuMKnIpp",
+    "type": "paragraph"
+  },
+  {
+    "children": [
+      {
+        "text": "\\int_{-\\infty}^{\\infty} e^{-x^2} \\, dx = \\sqrt{\\pi}"
+      }
+    ],
+    "id": "l5bysXGMKvjWqSdD22OKB",
+    "mode": "read",
+    "type": "latex-block"
+  },
+  {
+    "children": [
+      {
+        "text": ""
+      }
+    ],
+    "id": "8pvI9MOftXg7b443PDzEG",
+    "type": "paragraph"
+  },
+  {
+    "children": [
+      {
+        "text": "As you can see a rendered LaTeX expression has an identification number on its right side and in the future we are going to allow referencing that expression through the editor (this is not done yet)."
+      }
+    ],
+    "id": "6EeWDsxvGbpUTp1RV2YF2",
+    "type": "paragraph"
+  },
+  {
+    "children": [
+      {
+        "text": "Image Block"
+      }
+    ],
+    "id": "8y2uhhrXJrCHGvIHygfNr",
+    "level": 3,
+    "type": "heading"
+  },
+  {
+    "children": [
+      {
+        "text": "Last but not least is the image block you can use to display an image in the editor. The image block is a powerful element which allows you to display one or multiple images together. Up to 4 items the image block is going to present each image in a nice grid like this: "
+      }
+    ],
+    "id": "VGKvg5G7jIh-3rWjhWtFf",
+    "type": "paragraph"
+  },
+  {
+    "caption": "This is a global caption which describe the whole grid.",
+    "children": [
+      {
+        "text": ""
+      }
+    ],
+    "id": "RClg5jw6LXqEicJLp2gBN",
+    "items": [
+      {
+        "caption": "This is Mars! Our next destination!",
+        "height": 0,
+        "id": "nUq5OVOiOjqV_V_eUI6se",
+        "mime": "image/jpeg",
+        "url": "/api/paper/paper-8b722d/assets/8486215f.jpg",
+        "width": 0
+      },
+      {
+        "caption": "This is a nice beach",
+        "height": 0,
+        "id": "zHUU0_TkaATgrMTXGQvZ9",
+        "mime": "image/jpeg",
+        "url": "/api/paper/paper-8b722d/assets/3c3f5d61.jpg",
+        "width": 0
+      },
+      {
+        "caption": "Sooooo cute!!! :D",
+        "height": 0,
+        "id": "3Zbw_jdKcqUNwYPVYwQ-N",
+        "mime": "image/jpeg",
+        "url": "/api/paper/paper-8b722d/assets/573f4f85.jpg",
+        "width": 0
+      }
+    ],
+    "layout": "grid",
+    "type": "image-block"
+  },
+  {
+    "children": [
+      {
+        "text": "When you click on a specific image in this grid it gets focused and is expanded to fulfill the grid area. When this happens you can add a caption specific to that focused image. You can also add a global caption applied to whole grid when no image is focused. Finally, you can drag images around to reposition them inside the grid if you wish, resize the image block to predefined sizes (standard, wide and full) or using the left/right resize bars and also make the image block to float left/right so it gets surrounded by text."
+      }
+    ],
+    "id": "pREKD7FItSEtMgz9mN7MP",
+    "type": "paragraph"
+  },
+  {
+    "children": [
+      {
+        "text": "Submission"
+      }
+    ],
+    "id": "UiXZfBRp7-mp26m37PC-b",
+    "level": 1,
+    "type": "heading"
+  },
+  {
+    "children": [
+      {
+        "text": "You can submit your paper to be peer reviewed by the Simian community and after approved your paper will be publically accessible at "
+      },
+      {
+        "italic": true,
+        "text": "https://papers.simian.sh/<your-paper-id>"
+      },
+      {
+        "text": ". To submit a paper you should run:"
+      }
+    ],
+    "id": "q4IAho544YOx2mUhKvK22",
+    "type": "paragraph"
+  },
+  {
+    "children": [
+      {
+        "text": "simian paper submit your-paper-id"
+      }
+    ],
+    "id": "sGQTNhUP99_izdwK4SYn8",
+    "language": "bash",
+    "type": "code-block"
+  },
+  {
+    "children": [
+      {
+        "text": "A couple of questions are going to be asked (like if you want to specify co-authors or change the paper id) and after that a Pull Request (PR) is going to be created in our "
+      },
+      {
+        "link": "https://github.com/nosebit/simian-papers",
+        "text": "Simian Papers repository"
+      },
+      {
+        "text": ". A pure markdown version of your paper is going to be generated and reviewed by at least one automatically assigned reviewer."
+      }
+    ],
+    "id": "GOLRb2HgKclMILUHrqVab",
+    "type": "paragraph"
+  },
+  {
+    "children": [
+      {
+        "text": "You can preview how your paper is going to look like when published by using the preview command:"
+      }
+    ],
+    "id": "CT0RJmhACdfZPqV4wM-zB",
+    "type": "paragraph"
+  },
+  {
+    "children": [
+      {
+        "text": "simian paper preview your-paper-id"
+      }
+    ],
+    "id": "-OO4PF-rk_qVITJhS3oTY",
+    "language": "bash",
+    "type": "code-block"
+  },
+  {
+    "children": [
+      {
+        "text": "This command will build up your paper the same way submit will do and serve it locally so we can preview it. It also mocks some approvers, submit date and multiple versions so you have some idea of how the paper will really look like."
+      }
+    ],
+    "id": "23AH6vUgW1IdtvbVPKkNT",
+    "type": "paragraph"
+  }
+]
