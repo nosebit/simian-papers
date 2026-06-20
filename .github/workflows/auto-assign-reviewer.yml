@@ -1,24 +1,43 @@
-name: Auto Assign Reviewer
-
+name: "Auto-Assign Reviewer"
 on:
-  pull_request:
+  pull_request_target:
     types: [opened, ready_for_review]
 
+permissions:
+  pull-requests: write
+  contents: read
+
 jobs:
-  assign-reviewer:
+  assign:
     runs-on: ubuntu-latest
     steps:
-      - name: Request Review from Team
-        uses: actions/github-script@v6
+      - name: Pick random collaborator and assign
+        uses: actions/github-script@v7
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            // This requests a review from the team. 
-            // GitHub natively supports team auto-assignment if configured in the team settings,
-            // but this explicitly requests the team to review.
+            const author = context.payload.pull_request.user.login;
+            
+            // Get all direct collaborators
+            const collaborators = await github.rest.repos.listCollaborators({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              affiliation: 'direct'
+            });
+            
+            // Filter out the PR author
+            const validApprovers = collaborators.data
+              .map(user => user.login)
+              .filter(login => login !== author);
+              
+            if (validApprovers.length === 0) return;
+            
+            // Pick a random approver
+            const randomApprover = validApprovers[Math.floor(Math.random() * validApprovers.length)];
+            
+            // Formally request their review!
             await github.rest.pulls.requestReviewers({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              pull_number: context.issue.number,
-              team_reviewers: ['simian-paper-reviewers']
+              pull_number: context.payload.pull_request.number,
+              reviewers: [randomApprover]
             });

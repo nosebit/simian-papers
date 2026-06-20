@@ -1,0 +1,63 @@
+name: "Enforce Approvers"
+on:
+  pull_request_target:
+    types: [opened, synchronize, reopened]
+  pull_request_review:
+    types: [submitted, dismissed]
+
+permissions:
+  pull-requests: read
+  statuses: write
+
+jobs:
+  check-approval:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check for official approvals
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const prNumber = context.payload.pull_request ? context.payload.pull_request.number : context.payload.issue.number;
+            
+            // Determine the SHA of the latest commit on the PR
+            let sha;
+            if (context.payload.pull_request) {
+              sha = context.payload.pull_request.head.sha;
+            } else {
+              const pr = await github.rest.pulls.get({
+                 owner: context.repo.owner,
+                 repo: context.repo.repo,
+                 pull_number: prNumber
+              });
+              sha = pr.data.head.sha;
+            }
+            
+            // 1. Get all official direct collaborators
+            const collaborators = await github.rest.repos.listCollaborators({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              affiliation: 'direct'
+            });
+            const validLogins = collaborators.data.map(user => user.login);
+            
+            // 2. Get all reviews on the PR
+            const reviews = await github.rest.pulls.listReviews({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: prNumber
+            });
+            
+            // 3. Check if any review is an APPROVAL from an official collaborator
+            const hasApproval = reviews.data.some(review => 
+              review.state === 'APPROVED' && validLogins.includes(review.user.login)
+            );
+            
+            // 4. Set the Commit Status!
+            await github.rest.repos.createCommitStatus({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              sha: sha,
+              state: hasApproval ? 'success' : 'pending',
+              context: 'Enforce Approvers',
+              description: hasApproval ? 'Approved by an official collaborator!' : 'Waiting for approval from an official collaborator.'
+            });
